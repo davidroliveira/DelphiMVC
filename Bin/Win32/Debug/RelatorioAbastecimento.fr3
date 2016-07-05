@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="5.5.2" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Padrão" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42556,5841476968" ReportOptions.Description.Text="" ReportOptions.LastChange="42556,6596446644" ScriptLanguage="PascalScript" ScriptText.Text="var&#13;&#10;  PeriodoInicial, PeriodoFinal: string;&#13;&#10;&#13;&#10;procedure BtnConfirmaOnClick(Sender: TfrxComponent);&#13;&#10;begin&#13;&#10;  PeriodoInicial := FormatDateTime('dd/mm/yyyy', EdtDataInicial.date);&#13;&#10;  PeriodoFinal := FormatDateTime('dd/mm/yyyy', EdtDataFinal.date);&#13;&#10;end;&#13;&#10;&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
+  <Datasets>
+    <item DataSet="QryPrincipal" DataSetName="QryPrincipal"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000">
+    <TfrxIBXQuery Name="QryPrincipal" UserName="QryPrincipal" CloseDataSource="True" FieldAliases.Text="" BCDToCurrency="True" IgnoreDupParams="False" SQL.Text="SELECT ABASTECIMENTO.CODIGO_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.CODIGO_BOMBA,&#13;&#10;       CAST(ABASTECIMENTO.DATA_HORA_ABASTECIMENTO AS DATE) DATA_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.DATA_HORA_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.QUANTIDADE_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.PRECO_COMBUSTIVEL_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.VALOR_IMPOSTO_ABASTECIMENTO,&#13;&#10;       ABASTECIMENTO.TOTAL_ABASTECIMENTO,&#13;&#10;       BOMBA.NUMERO_BOMBA,&#13;&#10;       BOMBA.FABRICANTE_BOMBA,&#13;&#10;       BOMBA.MODELO_BOMBA,&#13;&#10;       BOMBA.SERIE_BOMBA,&#13;&#10;       TANQUE.CODIGO_TANQUE,&#13;&#10;       TANQUE.CAPACIDADE_TANQUE,&#13;&#10;       COMBUSTIVEL.DESCRICAO_COMBUSTIVEL&#13;&#10;  FROM ABASTECIMENTO&#13;&#10;  LEFT JOIN BOMBA&#13;&#10;    ON BOMBA.CODIGO_BOMBA = ABASTECIMENTO.CODIGO_BOMBA&#13;&#10;  LEFT JOIN TANQUE&#13;&#10;    ON TANQUE.CODIGO_TANQUE = BOMBA.CODIGO_TANQUE&#13;&#10;  LEFT JOIN COMBUSTIVEL&#13;&#10;    ON COMBUSTIVEL.CODIGO_COMBUSTIVEL = TANQUE.CODIGO_COMBUSTIVEL&#13;&#10; WHERE CAST(ABASTECIMENTO.DATA_HORA_ABASTECIMENTO AS DATE) BETWEEN :DATAINICIAL AND :DATAFINAL&#13;&#10; ORDER BY CAST(ABASTECIMENTO.DATA_HORA_ABASTECIMENTO AS DATE),&#13;&#10;          TANQUE.CODIGO_TANQUE,&#13;&#10;          BOMBA.NUMERO_BOMBA, BOMBA.CODIGO_BOMBA,&#13;&#10;          CAST(ABASTECIMENTO.DATA_HORA_ABASTECIMENTO AS TIME)  " PropData="05704C6566740318010470546F70038C000A506172616D657465727301010646204E616D653D2244415441494E494349414C222044617461547970653D22667444617465222045787072657373696F6E3D2245647444617461496E696369616C2E646174652200010642204E616D653D224441544146494E414C222044617461547970653D22667444617465222045787072657373696F6E3D224564744461746146696E616C2E64617465220000"/>
+  </TfrxDataPage>
+  <TfrxDialogPage Name="FrmFiltros" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" BorderStyle="bsDialog" Caption="Filtros do Relatório" Height="202" ClientHeight="164" Left="349" Top="150" Width="469" ClientWidth="453">
+    <TfrxGroupBoxControl Name="GroupBoxPeriodo" Left="12" Top="12" Width="429" Height="80" ShowHint="True" Caption=" Período de Abastecimento " Color="-16777201">
+      <TfrxDateEditControl Name="EdtDataInicial" Left="44" Top="40" Width="145" Height="21" ShowHint="True" Color="-16777211" Date="42556,597818588" Time="42556,597818588" WeekNumbers="False"/>
+      <TfrxDateEditControl Name="EdtDataFinal" Left="252" Top="40" Width="145" Height="21" ShowHint="True" Color="-16777211" Date="42556,597818588" Time="42556,597818588" WeekNumbers="False"/>
+      <TfrxLabelControl Name="Label1" Left="16" Top="42" Width="16" Height="16" ShowHint="True" Alignment="taRightJustify" Caption="De" Color="-16777201"/>
+      <TfrxLabelControl Name="Label2" Left="208" Top="42" Width="20" Height="16" ShowHint="True" Alignment="taRightJustify" Caption="Até" Color="-16777201"/>
+    </TfrxGroupBoxControl>
+    <TfrxBitBtnControl Name="BtnConfirma" Left="232" Top="128" Width="100" Height="25" ShowHint="True" Glyph.PropData="04446174610AE2010000DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000" Kind="bkOK" Caption="OK" ModalResult="1" NumGlyphs="2" OnClick="BtnConfirmaOnClick"/>
+    <TfrxBitBtnControl Name="BtnCancela" Left="340" Top="128" Width="100" Height="25" ShowHint="True" Glyph.PropData="04446174610AE2010000DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333000033338833333333333333333F3333333333330000333911833333983333333388F333333F333300003339111833391183333338F38F333F88F33300003339111183911118333338F338F3F8338F3300003333911118111118333338F3338F833338F3000033333911111111833333338F33383333F8330000333333911111183333333338F333333F833300003333333111118333333333338F3333383333000033333339111183333333333338F33383333300003333339111118333333333333833338F333300003333391118111833333333338333338F333300003333911183911183333333383338F338F333000033339118333911183333338F33838F338F33000033333913333391113333338FF83338F338F300003333333333333919333333388333338FFF83000033333333333333333333333333333338883300003333333333333333333333333333333333330000" Kind="bkCancel" Caption="Cancelar" ModalResult="2" NumGlyphs="2"/>
+  </TfrxDialogPage>
+  <TfrxReportPage Name="PagePrincipal" PaperWidth="210" PaperHeight="297" PaperSize="9" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxPageHeader Name="PageHeader" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22,67718" Left="0" Top="18,89765" Width="718,1107" Child="ChildPageHeader">
+      <TfrxMemoView Name="Memo1" Align="baWidth" Left="0" Top="0" Width="718,1107" Height="18,89765" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haCenter" ParentFont="False" Text="Relatório de Abastecimentos"/>
+    </TfrxPageHeader>
+    <TfrxChild Name="ChildPageHeader" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22,67718" Left="0" Top="64,25201" Width="718,1107">
+      <TfrxMemoView Name="Memo2" Align="baWidth" Left="0" Top="0" Width="718,1107" Height="15,11811024" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="Filtros: Período de Abastecimento de [PeriodoInicial] até [PeriodoFinal]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+    </TfrxChild>
+    <TfrxGroupHeader Name="GroupHeaderData" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="18,89765" Left="0" Top="185,19697" Width="718,1107" Condition="QryPrincipal.&#34;DATA_ABASTECIMENTO&#34;">
+      <TfrxMemoView Name="Memo4" Left="0" Top="0" Width="718,1107" Height="15,11811024" DataField="DATA_ABASTECIMENTO" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Fill.BackColor="14211288" ParentFont="False" Text="[QryPrincipal.&#34;DATA_ABASTECIMENTO&#34;]"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooterData" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22,67718" Left="0" Top="415,7483" Width="718,1107">
+      <TfrxMemoView Name="Memo5" Left="0" Top="0" Width="510,23655" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="Total do Dia [QryPrincipal.&#34;DATA_ABASTECIMENTO&#34;]: ">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+      <TfrxMemoView Name="Memo28" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;VALOR_IMPOSTO_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo29" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;TOTAL_ABASTECIMENTO&#34;&#62;))]"/>
+    </TfrxGroupFooter>
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,11809559" Left="0" Top="302,3624" Width="718,1107" ColumnWidth="0" ColumnGap="0" DataSet="QryPrincipal" DataSetName="QryPrincipal" RowCount="0">
+      <TfrxMemoView Name="Memo3" Left="113,3859" Top="0" Width="94,48825" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="[FormatFloat('00000000',&#60;QryPrincipal.&#34;CODIGO_ABASTECIMENTO&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo13" Left="207,87415" Top="0" Width="113,3859" Height="15,11811024" DataField="DATA_HORA_ABASTECIMENTO" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="[QryPrincipal.&#34;DATA_HORA_ABASTECIMENTO&#34;]"/>
+      <TfrxMemoView Name="Memo15" Left="415,7483" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.000#,###',&#60;QryPrincipal.&#34;QUANTIDADE_ABASTECIMENTO&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo17" Left="321,26005" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.000#,###',&#60;QryPrincipal.&#34;PRECO_COMBUSTIVEL_ABASTECIMENTO&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo19" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',&#60;QryPrincipal.&#34;VALOR_IMPOSTO_ABASTECIMENTO&#34;&#62;)]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+      <TfrxMemoView Name="Memo21" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',&#60;QryPrincipal.&#34;TOTAL_ABASTECIMENTO&#34;&#62;)]"/>
+    </TfrxMasterData>
+    <TfrxGroupHeader Name="GroupHeaderBomba" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,11811024" Left="0" Top="264,5671" Width="718,1107" Condition="QryPrincipal.&#34;NUMERO_BOMBA&#34;">
+      <TfrxMemoView Name="Memo6" Left="75,5906" Top="0" Width="642,5201" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="Bomba nº [QryPrincipal.&#34;NUMERO_BOMBA&#34;] - [QryPrincipal.&#34;FABRICANTE_BOMBA&#34;] [QryPrincipal.&#34;MODELO_BOMBA&#34;] [QryPrincipal.&#34;SERIE_BOMBA&#34;]">
+        <Formats>
+          <item/>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooterBomba" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,11811024" Left="0" Top="340,1577" Width="718,1107">
+      <TfrxMemoView Name="Memo8" Left="0" Top="0" Width="415,7483" Height="15,11811024" AutoWidth="True" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="Total Bomba nº [QryPrincipal.&#34;NUMERO_BOMBA&#34;]: ">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+      <TfrxMemoView Name="Memo22" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;TOTAL_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo23" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;VALOR_IMPOSTO_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo24" Left="415,7483" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.000#,###',SUM(&#60;QryPrincipal.&#34;QUANTIDADE_ABASTECIMENTO&#34;&#62;))]"/>
+    </TfrxGroupFooter>
+    <TfrxGroupHeader Name="GroupHeaderTanque" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,1181102362205" Left="0" Top="226,7718" Width="718,1107" Condition="QryPrincipal.&#34;CODIGO_TANQUE&#34;">
+      <TfrxMemoView Name="Memo7" Left="37,7953" Top="0" Width="680,3154" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="Tanque [&#60;QryPrincipal.&#34;CODIGO_TANQUE&#34;&#62;] - Combústivel: [QryPrincipal.&#34;DESCRICAO_COMBUSTIVEL&#34;]"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooterTanque" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,11812" Left="0" Top="377,953" Width="718,1107">
+      <TfrxMemoView Name="Memo9" Left="0" Top="0" Width="415,7483" Height="15,11811024" AutoWidth="True" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="Total Tanque [&#60;QryPrincipal.&#34;CODIGO_TANQUE&#34;&#62;]: ">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxMemoView>
+      <TfrxMemoView Name="Memo25" Left="415,7483" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.000#,###',SUM(&#60;QryPrincipal.&#34;QUANTIDADE_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo26" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;VALOR_IMPOSTO_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo27" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;TOTAL_ABASTECIMENTO&#34;&#62;))]"/>
+    </TfrxGroupFooter>
+    <TfrxReportSummary Name="ReportSummary" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="22,67718" Left="0" Top="498,89796" Width="718,1107">
+      <TfrxMemoView Name="Memo10" Left="0" Top="0" Width="510,23655" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="Total Geral do Período de [PeriodoInicial] até [PeriodoFinal]: "/>
+      <TfrxMemoView Name="Memo30" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;VALOR_IMPOSTO_ABASTECIMENTO&#34;&#62;))]"/>
+      <TfrxMemoView Name="Memo31" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="4" HAlign="haRight" ParentFont="False" Text="[FormatFloat('0.00#,##',SUM(&#60;QryPrincipal.&#34;TOTAL_ABASTECIMENTO&#34;&#62;))]"/>
+    </TfrxReportSummary>
+    <TfrxHeader Name="Header1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Height="15,11812" Left="0" Top="147,40167" Width="718,1107">
+      <TfrxMemoView Name="Memo11" Left="113,3859" Top="0" Width="94,48825" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haCenter" ParentFont="False" Text="Abastecimento"/>
+      <TfrxMemoView Name="Memo12" Left="207,87415" Top="0" Width="113,38582677" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haCenter" ParentFont="False" Text="Data/Hora"/>
+      <TfrxMemoView Name="Memo14" Left="415,7483" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haRight" ParentFont="False" Text="Quantidade (Litros)"/>
+      <TfrxMemoView Name="Memo16" Left="321,26005" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haRight" ParentFont="False" Text="Preço Unit."/>
+      <TfrxMemoView Name="Memo18" Left="510,23655" Top="0" Width="94,48818898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haRight" ParentFont="False" Text="Total Impostos"/>
+      <TfrxMemoView Name="Memo20" Left="604,7248" Top="0" Width="113,38583898" Height="15,11811024" DataSet="QryPrincipal" DataSetName="QryPrincipal" Font.Charset="1" Font.Color="536870911" Font.Height="-11" Font.Name="Arial" Font.Style="1" Frame.Typ="8" HAlign="haRight" ParentFont="False" Text="Valor Total"/>
+    </TfrxHeader>
+  </TfrxReportPage>
+</TfrxReport>
