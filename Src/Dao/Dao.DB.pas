@@ -10,10 +10,14 @@ uses
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef,
   FireDAC.VCLUI.Wait, FireDAC.Comp.Client,
 
-  FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.Phys.MSSQL,
   FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet;
 
 type
+  TParametroQuery = record
+    Name: string;
+    Value: Variant;
+  end;
   TConexao = class
   strict private
     FConexao: TFDConnection;
@@ -23,29 +27,15 @@ type
     constructor Create;
     class function GetInstancia: TConexao;
     property Conexao: TFDConnection read FConexao write FConexao;
-    function ExecuteSQL(ASQL: string; var Erro: string): Boolean;
-    function CriaDataSource(ASQL: string): TDataSource;
-    function CriaQuery(ASQL: string): TFDQuery;
-    procedure IniciaTransacao;
-    procedure RollbackTransacao;
-    procedure CommitaTransacao;
+    function ExecuteSQL(const ASQL: string; const Parametros: array of TParametroQuery): Boolean;
+    function CriaDataSource(const ASQL: string; const Parametros: array of TParametroQuery): TDataSource;
+    function CriaQuery(const ASQL: string; const Parametros: array of TParametroQuery): TFDQuery; overload;
     function Open(var Erro: string): Boolean;
   end;
 
-
 implementation
 
-{ TConexao }
-
-procedure TConexao.IniciaTransacao;
-begin
-  FConexao.StartTransaction;
-end;
-
-procedure TConexao.CommitaTransacao;
-begin
-  FConexao.Commit;
-end;
+uses Lib.SO;
 
 constructor TConexao.Create;
 begin
@@ -62,57 +52,40 @@ begin
     raise Exception.Create(Erro);
 end;
 
-function TConexao.CriaDataSource(ASQL: string): TDataSource;
+function TConexao.CriaDataSource(const ASQL: string; const Parametros: array of TParametroQuery): TDataSource;
 begin
   try
     Result := TDataSource.Create(nil);
-    Result.DataSet := CriaQuery(ASQL);
-
-    if not Assigned(Result.DataSet) then
-    begin
-      if Assigned(Result) then
-        Result.Free;
-      Result := nil;
-    end;
-  except
+    Result.DataSet := CriaQuery(ASQL, Parametros);
+  finally
     if Assigned(Result) then
+    begin
+      if not Assigned(Result.DataSet) then
+        Result.DataSet.Free;
       Result.Free;
-    Result := nil;
+    end;
   end;
-
 end;
 
-function TConexao.CriaQuery(ASQL: string): TFDQuery;
+function TConexao.CriaQuery(const ASQL: string; const Parametros: array of TParametroQuery): TFDQuery;
+var
+  I: Integer;
+  Parametro: TParametroQuery;
 begin
   Result := TFDQuery.Create(nil);
-  try
-    Result.Connection := FConexao;
-    Result.Close;
-    Result.SQL.Clear;
-    Result.SQL.Text := ASQL;
-    Result.Open;
-  except on E: Exception do
-    begin
-      if Assigned(Result) then
-        Result.Free;
-
-      Result := nil;
-    end;
-  end;
+  Result.Connection := FConexao;
+  Result.Close;
+  Result.SQL.Clear;
+  Result.SQL.Text := ASQL;
+  for Parametro in Parametros do
+    Result.Params.ParamByName(Parametro.Name).Value := Parametro.Value;
+  Result.Open();
 end;
 
-function TConexao.ExecuteSQL(ASQL: string; var Erro: string): Boolean;
+function TConexao.ExecuteSQL(const ASQL: string; const Parametros: array of TParametroQuery): Boolean;
 begin
+  FConexao.ExecSQL(ASQL);
   Result := True;
-  try
-    FConexao.ExecSQL(ASQL);
-  except
-    on E: Exception do
-       begin
-         Erro := E.Message;
-         Result := False;
-       end;
-  end;
 end;
 
 class function TConexao.GetInstancia: TConexao;
@@ -124,37 +97,19 @@ end;
 
 function TConexao.Open(var Erro: string): Boolean;
 begin
-  Result := False;
-
   try
     FConexao.Connected := False;
-
     FConexao.Params.Clear;
-    FConexao.Params.Add('Database=' + ExtractFileDir(Application.ExeName) + '\DB\FORTES.FDB');
-
-    FConexao.Params.Add('User_Name=sysdba');
-    FConexao.Params.Add('Password=masterkey');
-
-    FConexao.Params.Add('Server=127.0.0.1');
-
-    FConexao.Params.Add('CharacterSet=WIN1252');
-    FConexao.Params.Add('DriverID=FB');
-
+    FConexao.Params.LoadFromFile(ChangeFileExt(TLibSO.ApplicationFileName, '.ini'));
     FConexao.Connected := True;
     Result := FConexao.Connected
   except
     on E: Exception do
-       begin
-         Result := False;
-         Erro := E.Message;
-       end;
+    begin
+      Result := False;
+      Erro := E.Message;
+    end;
   end;
-
-end;
-
-procedure TConexao.RollbackTransacao;
-begin
-  FConexao.Rollback;
 end;
 
 end.
